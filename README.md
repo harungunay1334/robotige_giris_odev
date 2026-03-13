@@ -35,8 +35,7 @@ chmod +x turtle_tracker_and_mover.py
 
 Bu ödevde, Turtlesim simülasyonundaki kaplumbağanın `/turtle1/pose` konusundan (topic) anlık konum verisi saniyede bir kez ekrana yazdırılmakta, aynı anda `/turtle1/cmd_vel` konusu üzerinden aralıksız hız komutları gönderilerek kaplumbağa hareket ettirilmektedir.
 
-* **İlgili Dosyalar:**
-  * `scripts/1.odev/turtle_tracker_and_mover.py` -> (Düğüm: `turtle_manager`)
+  * `scripts/1.odev/kaplumbaga_takip_ve_hareket.py` -> (Düğüm: `kaplumbaga_yonetici`)
 
 ### 🚀 Nasıl Çalıştırılır?
 
@@ -54,14 +53,13 @@ rosrun turtlesim turtlesim_node
 
 **3. Terminal: Yönetici Python Düğümünü Başlatın:**
 ```bash
-rosrun my_pkg turtle_tracker_and_mover.py
+rosrun ros_noetic_odev kaplumbaga_takip_ve_hareket.py
 ```
-*(Paket adı `my_pkg` yerine kullanmış olduğunuz klasör/paket adı neyse onunla değiştirmeyi unutmayın, örn: `rosrun ros_noetic_odev turtle_tracker_and_mover.py`)*
 
 ### 📈 Örnek Çıktı
-`turtle_manager` çalıştığında ve robot hareket ettiğinde 3. terminalde şu şekilde anlık koordinatları görürsünüz (saniyede 1 kez basılır):
+`kaplumbaga_yonetici` çalıştığında ve robot hareket ettiğinde 3. terminalde şu şekilde anlık koordinatları görürsünüz (saniyede 1 kez basılır):
 ```text
-[INFO] [Zaman Damgası]: Turtle_manager aktifleşti! Hareket ve konum dinleme başlıyor...
+[INFO] [Zaman Damgası]: Kaplumbağa yöneticisi aktifleşti! Hareket ve konum dinleme başlıyor...
 [INFO] [Zaman Damgası]: Turtlesim pozisyonu X=5.54 Y=5.54 Açı=0.00
 [INFO] [Zaman Damgası]: Turtlesim pozisyonu X=5.62 Y=5.54 Açı=0.15
 ...
@@ -73,12 +71,12 @@ rosrun my_pkg turtle_tracker_and_mover.py
 
 Bu ödevde, istemcinin (Client) Terminal aracılığıyla gönderdiği En (`width`) ve Boy (`height`) parametrelerini alarak, dikdörtgenin alanını (`area`) hesaplayan ve istemciye sonucu geri döndüren bir ROS **Service** uygulaması geliştirilmiştir.
 
-Uygulamanın adı (içeriksel proje mantığı olarak) **`rectangle_area_service`** yapısına dayanmakla beraber `my_pkg` paketi (`ros_noetic_odev`) içindeki `2.odev/` ağacına yerleştirilmiştir. Özel servis dosyası (`RectangleArea.srv`) kullanılmıştır.
+Uygulamanın adı (içeriksel proje mantığı olarak) **`dikdortgen_alani_hesapla`** yapısına dayanmakla beraber `ros_noetic_odev` paketi içindeki `2.odev/` ağacına yerleştirilmiştir. Özel servis dosyası (`DikdortgenAlan.srv`) kullanılmıştır.
 
 * **İlgili Dosyalar:**
-  * `srv/RectangleArea.srv` -> (Özel servis veri yapısı)
-  * `scripts/2.odev/area_server.py` -> (Düğüm: `area_server`)
-  * `scripts/2.odev/area_client.py` -> (Düğüm: `area_client`)
+  * `srv/DikdortgenAlan.srv` -> (Özel servis veri yapısı)
+  * `scripts/2.odev/alan_sunucu.py` -> (Düğüm: `alan_sunucu`)
+  * `scripts/2.odev/alan_istemci.py` -> (Düğüm: `alan_istemci`)
 
 ### 🚀 Nasıl Çalıştırılır ve Test Edilir?
 
@@ -99,32 +97,31 @@ roscore
 
 **2. Terminal: Alan Hesaplayıcı Server'ı Çalıştırın:**
 ```bash
-rosrun my_pkg area_server.py
+rosrun ros_noetic_odev alan_sunucu.py
 ```
-*(Paket isminiz `my_pkg` yerine klasör adınız olabilir, örneğin: `rosrun ros_noetic_odev area_server.py`)*
 
 #### Test Yöntemi 1: Manuel Kod Üzerinden İstek Atmak (Client)
 **3. Terminal: Sayısal parametrelerle Client'ı çalıştırıp test edin (Ör: En=5.2, Boy=10.0):**
 ```bash
-rosrun my_pkg area_client.py 5.2 10.0
+rosrun ros_noetic_odev alan_istemci.py 5.2 10.0
 ```
 
 #### Test Yöntemi 2: `rosservice call` Üzerinden Manuel Test
 İstemci kodu (Client) haricinde, servisi doğrudan ROS komutlarıyla da çağırabilirsiniz:
 ```bash
-rosservice call /calculate_rectangle_area "width: 5.2
-height: 10.0"
+rosservice call /dikdortgen_alani_hesapla "en: 5.2
+boy: 10.0"
 ```
 
 ### 📈 Örnek Çıktılar
 
-**Sunucu (area_server.py) Terminali Çıktısı:**
+**Sunucu (alan_sunucu.py) Terminali Çıktısı:**
 ```text
 [INFO] [Zaman Damgası]: Dikdörtgen Alanı Hesaplama Servisi Başlatıldı. İstekler bekleniyor...
 [INFO] [Zaman Damgası]: Hesaplama İsteği Alındı -> En: 5.20, Boy: 10.00 | Sonuç (Alan): 52.00
 ```
 
-**İstemci (area_client.py) Terminali Çıktısı:**
+**İstemci (alan_istemci.py) Terminali Çıktısı:**
 ```text
 İstek gönderiliyor: En=5.2, Boy=10.0
 Sunucudan Gelen Sonuç (Alan): 52.00
