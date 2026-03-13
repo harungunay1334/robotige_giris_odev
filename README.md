@@ -26,7 +26,7 @@ source devel/setup.bash
 Python düğümünü hatasız çalıştırabilmeniz için executable izinlerinin olduğuna emin olmalısınız:
 ```bash
 cd ~/catkin_ws/src/ros_noetic_odev/scripts/1.odev/
-chmod +x turtle_tracker_and_mover.py
+chmod +x kaplumbaga_takip_ve_hareket.py
 ```
 
 ---
@@ -69,7 +69,7 @@ rosrun ros_noetic_odev kaplumbaga_takip_ve_hareket.py
 
 ## 📁 Ödev 2: Dikdörtgen Alanı Hesaplama Servisi (Python)
 
-Bu ödevde, istemcinin (Client) Terminal aracılığıyla gönderdiği En (`width`) ve Boy (`height`) parametrelerini alarak, dikdörtgenin alanını (`area`) hesaplayan ve istemciye sonucu geri döndüren bir ROS **Service** uygulaması geliştirilmiştir.
+Bu ödevde, istemcinin (Client) Terminal aracılığıyla gönderdiği En (`en`) ve Boy (`boy`) parametrelerini alarak, dikdörtgenin alanını (`alan`) hesaplayan ve istemciye sonucu geri döndüren bir ROS **Service** uygulaması geliştirilmiştir.
 
 Uygulamanın adı (içeriksel proje mantığı olarak) **`dikdortgen_alani_hesapla`** yapısına dayanmakla beraber `ros_noetic_odev` paketi içindeki `2.odev/` ağacına yerleştirilmiştir. Özel servis dosyası (`DikdortgenAlan.srv`) kullanılmıştır.
 
